@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>This is my Hello World app.</h1>
+    <button id="helloWorldBtn">Click here, and I'll say hi.</button>
+    <button id="postBtn">Click here and I'll do a post.</button>
+</div>
+
+<script>
+    function callCtrler() {
+        var req = new XMLHttpRequest();
+        req.open('GET', '@Url.Action("RespondToAjax", "Home")', true);
+        req.setRequestHeader('Content-Type', 'application/json');
+
+        req.onload = function () {
+            if (req.status >= 200 && req.status < 400) {
+                alert(req.responseText);
+            } else {
+                alert('We encountered an error!');
+            }
+        }
+
+        req.send();
+    }
+
+    function postToCtrl() {
+        var tmpObj = {
+            Name: 'Carmen',
+            Age: 26,
+            FavoriteColor: 'Green'
+        };
+
+        var req = new XMLHttpRequest();
+        req.open('POST', '@Url.Action("PostFromAjax", "Home")', true);
+        req.setRequestHeader('Content-Type', 'application/json');
+        req.send(JSON.stringify(tmpObj));
+    }
+
+    document.getElementById('helloWorldBtn').addEventListener('click', callCtrler);
+    document.getElementById('postBtn').addEventListener('click', postToCtrl);
+</script>
